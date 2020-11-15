@@ -101,10 +101,21 @@ extension OptionalParentProperty: AnyCodableProperty {
         }
     }
 
-    public func decode(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: ModelCodingKey.self)
-        try self.$id.decode(from: container.superDecoder(forKey: .string("id")))
-    }
+    //public func decode(from decoder: Decoder) throws {
+    //    let container = try decoder.container(keyedBy: ModelCodingKey.self)
+    //    try self.$id.decode(from: container.superDecoder(forKey: .string("id")))
+    //}
+    
+      public func decode(from decoder: Decoder) throws {
+          do {
+              let container = try decoder.container(keyedBy: ModelCodingKey.self)
+              try self.$id.decode(from: container.superDecoder(forKey: .string("id")))
+          }
+          catch {
+              self.id = nil
+          }
+      }
+    
 }
 
 // MARK: Eager Loadable
